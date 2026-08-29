@@ -3,28 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProtonXmusic | Official Portfolio</title>
+    <title>ProtonXmusic | Official Creator Portfolio & Music Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS Variables & Global Resets */
+        /* ==========================================================================
+           1. ROOT VARIABLES & GLOBAL STYLES
+           ========================================================================== */
         :root {
-            --bg-dark: #0a0a0c;
-            --bg-card: #141419;
-            --bg-card-hover: #1e1e26;
+            --bg-dark: #070709;
+            --bg-main: #0c0c10;
+            --bg-card: #14141a;
+            --bg-card-hover: #1c1c24;
+            --bg-glass: rgba(18, 18, 24, 0.75);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(255, 0, 0, 0.3);
+            
             --text-main: #ffffff;
-            --text-muted: #a0a0ab;
-            --accent: #FF0000;
-            --accent-hover: #cc0000;
-            --glass-bg: rgba(20, 20, 25, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --text-muted: #9e9ea7;
+            --text-dim: #64646e;
+            
+            --primary-red: #FF0000;
+            --primary-red-hover: #cc0000;
+            --primary-red-glow: rgba(255, 0, 0, 0.5);
+            
+            --brand-youtube: #FF0000;
+            --brand-telegram: #0088cc;
+            --brand-whatsapp: #25D366;
+            --brand-instagram: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 50px;
+            
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 20px rgba(255, 0, 0, 0.35);
         }
 
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             scroll-behavior: smooth;
         }
 
@@ -33,9 +58,63 @@
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Fixed Glassmorphism Navbar */
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #252530;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-red);
+        }
+
+        /* Ambient Background Mesh */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .ambient-blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.12;
+        }
+        .blob-1 {
+            top: -100px;
+            left: -100px;
+            background: var(--primary-red);
+        }
+        .blob-2 {
+            bottom: -100px;
+            right: -100px;
+            background: #0088cc;
+        }
+        .blob-3 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #990000;
+        }
+
+        /* ==========================================================================
+           2. NAVIGATION (GLASS-MORPHISM NAVBAR)
+           ========================================================================== */
         .navbar {
             position: fixed;
             top: 0;
@@ -44,154 +123,287 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 8%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--glass-border);
+            padding: 1.2rem 8%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-glass);
             z-index: 1000;
+            transition: var(--transition-normal);
+        }
+
+        .navbar.scrolled {
+            padding: 0.9rem 8%;
+            box-shadow: var(--shadow-md);
         }
 
         .logo {
             font-size: 1.6rem;
-            font-weight: 800;
+            font-weight: 900;
             text-decoration: none;
             color: var(--text-main);
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-
+        .logo i {
+            color: var(--primary-red);
+            font-size: 1.4rem;
+        }
         .logo span {
-            color: var(--accent);
+            color: var(--primary-red);
         }
 
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.2rem;
         }
 
         .nav-links a {
             color: var(--text-main);
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
-            transition: var(--transition);
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--primary-red);
+            transition: var(--transition-fast);
+            border-radius: 2px;
         }
 
         .nav-links a:hover {
-            color: var(--accent);
+            color: var(--primary-red);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .hamburger {
             display: none;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--text-main);
+            transition: var(--transition-fast);
+        }
+        .hamburger:hover {
+            color: var(--primary-red);
         }
 
-        /* Buttons & CTA Styling */
+        /* Mobile Menu Backdrop */
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition-normal);
+        }
+        .mobile-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ==========================================================================
+           3. BUTTON SYSTEM & CTA COMPONENTS
+           ========================================================================== */
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.85rem 1.8rem;
-            background-color: var(--accent);
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.9rem 2rem;
+            background-color: var(--primary-red);
             color: var(--text-main);
             border: none;
-            border-radius: 30px;
+            border-radius: var(--radius-full);
             font-weight: 700;
             font-size: 0.95rem;
+            letter-spacing: 0.5px;
             text-decoration: none;
             cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+            transition: var(--transition-normal);
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.6);
+            background-color: var(--primary-red-hover);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.99);
         }
 
         .btn-youtube {
-            background-color: #FF0000;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-        }
-
-        .btn-youtube:hover {
-            background-color: #d60000;
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
+            background: var(--brand-youtube);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
         }
 
         .btn-telegram {
-            background-color: #0088cc;
-            box-shadow: 0 0 15px rgba(0, 136, 204, 0.4);
+            background: var(--brand-telegram);
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.4);
         }
-
         .btn-telegram:hover {
-            background-color: #0077b5;
-            box-shadow: 0 0 25px rgba(0, 136, 204, 0.7);
+            background: #0077b5;
+            box-shadow: 0 10px 25px rgba(0, 136, 204, 0.6);
         }
 
         .btn-whatsapp {
-            background-color: #25D366;
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+            background: var(--brand-whatsapp);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
         }
-
         .btn-whatsapp:hover {
-            background-color: #1eb956;
-            box-shadow: 0 0 25px rgba(37, 211, 102, 0.7);
+            background: #1eb956;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.6);
         }
 
         .btn-instagram {
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            box-shadow: 0 0 15px rgba(220, 39, 67, 0.4);
+            background: var(--brand-instagram);
+            box-shadow: 0 0 20px rgba(220, 39, 67, 0.4);
         }
-
         .btn-instagram:hover {
-            opacity: 0.9;
-            box-shadow: 0 0 25px rgba(220, 39, 67, 0.7);
+            opacity: 0.95;
+            box-shadow: 0 10px 25px rgba(220, 39, 67, 0.6);
         }
 
-        /* Hero Section */
+        /* Floating Separate Telegram Feedback Button */
+        .floating-telegram-feedback {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--brand-telegram);
+            color: #ffffff;
+            padding: 0.9rem 1.6rem;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 30px rgba(0, 136, 204, 0.5);
+            transition: var(--transition-normal);
+            z-index: 999;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .floating-telegram-feedback i {
+            font-size: 1.2rem;
+        }
+
+        .floating-telegram-feedback:hover {
+            transform: translateY(-5px) scale(1.06);
+            background-color: #0077b5;
+            box-shadow: 0 12px 35px rgba(0, 136, 204, 0.75);
+        }
+
+        /* ==========================================================================
+           4. HERO SECTION (90VH DETAILED LAYOUT)
+           ========================================================================== */
         .hero {
-            height: 90vh;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 0 1.5rem;
+            padding: 7rem 1.5rem 4rem;
             margin-top: 60px;
-            background: radial-gradient(circle at center, rgba(255, 0, 0, 0.15) 0%, rgba(10, 10, 12, 1) 75%);
+            position: relative;
+            background: radial-gradient(circle at center, rgba(255, 0, 0, 0.12) 0%, rgba(12, 12, 16, 0.95) 75%);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.4rem 1.2rem;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: var(--radius-full);
+            color: var(--primary-red);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.8rem;
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.2); }
+            100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 900;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             line-height: 1.1;
+            max-width: 950px;
         }
 
         .hero h1 span {
-            color: var(--accent);
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+            color: var(--primary-red);
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            background: linear-gradient(180deg, #ffffff 30%, var(--primary-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: var(--text-muted);
-            max-width: 650px;
-            margin-bottom: 2.5rem;
+            max-width: 720px;
+            margin-bottom: 3rem;
+            font-weight: 400;
         }
 
         .hero-buttons {
@@ -199,60 +411,126 @@
             gap: 1.2rem;
             flex-wrap: wrap;
             justify-content: center;
-            max-width: 900px;
+            align-items: center;
+            max-width: 950px;
+            width: 100%;
         }
 
-        /* Main Section Layout */
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        .hero-scroll-indicator:hover {
+            color: var(--primary-red);
+        }
+        .hero-scroll-indicator i {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+
+        /* ==========================================================================
+           5. SECTION LAYOUT & COMMON STYLES
+           ========================================================================== */
         section {
-            padding: 6rem 8%;
+            padding: 7rem 8%;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-subtitle {
+            color: var(--primary-red);
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            display: block;
         }
 
         .section-title {
-            text-align: center;
-            font-size: 2.4rem;
-            font-weight: 800;
-            margin-bottom: 3.5rem;
+            font-size: 2.6rem;
+            font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1px;
             position: relative;
+            display: inline-block;
         }
 
         .section-title::after {
             content: '';
             display: block;
-            width: 70px;
+            width: 80px;
             height: 4px;
-            background-color: var(--accent);
-            margin: 0.6rem auto 0;
+            background-color: var(--primary-red);
+            margin: 0.8rem auto 0;
             border-radius: 2px;
-            box-shadow: 0 0 10px var(--accent);
+            box-shadow: 0 0 15px var(--primary-red);
         }
 
-        /* Dynamic Video Feed Grid */
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-glass), transparent);
+            margin: 0 auto;
+        }
+
+        /* ==========================================================================
+           6. DYNAMIC YOUTUBE FEED SECTION (RSS2JSON API)
+           ========================================================================== */
+        .video-feed-wrapper {
+            position: relative;
+            min-height: 350px;
+        }
+
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .video-card {
             background-color: var(--bg-card);
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             overflow: hidden;
-            border: 1px solid var(--glass-border);
-            transition: var(--transition);
+            border: 1px solid var(--border-glass);
+            transition: var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-sm);
         }
 
         .video-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: var(--accent);
-            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.2);
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--border-glow);
+            box-shadow: 0 15px 35px rgba(255, 0, 0, 0.25);
+            background-color: var(--bg-card-hover);
         }
 
         .iframe-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
             background-color: #000;
         }
@@ -267,209 +545,378 @@
         }
 
         .video-info {
-            padding: 1.25rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
         }
 
         .video-title {
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.15rem;
+            font-weight: 700;
             color: var(--text-main);
+            margin-bottom: 0.8rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            line-height: 1.4;
         }
 
-        /* About & Channel Stats */
+        .video-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .video-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .video-meta i {
+            color: var(--primary-red);
+        }
+
+        .feed-loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            padding: 4rem 0;
+            color: var(--text-muted);
+            grid-column: 1 / -1;
+        }
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 4px solid rgba(255, 0, 0, 0.1);
+            border-top-color: var(--primary-red);
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ==========================================================================
+           7. ABOUT SECTION & CHANNEL STATS
+           ========================================================================== */
         .about-content {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3.5rem;
+            gap: 4rem;
         }
 
         .about-description {
-            max-width: 800px;
+            max-width: 850px;
             text-align: center;
             color: var(--text-muted);
-            font-size: 1.15rem;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .about-description strong {
+            color: var(--text-main);
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 2rem;
             width: 100%;
-            max-width: 1100px;
+            max-width: 1150px;
         }
 
         .stat-card {
             background-color: var(--bg-card);
-            padding: 2.5rem 1.5rem;
-            border-radius: 8px;
+            padding: 3rem 1.8rem;
+            border-radius: var(--radius-md);
             text-align: center;
-            border: 1px solid var(--glass-border);
-            transition: var(--transition);
+            border: 1px solid var(--border-glass);
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
+            opacity: 0;
+            transition: var(--transition-normal);
         }
 
         .stat-card:hover {
-            transform: scale(1.05);
-            border-color: var(--accent);
-            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.15);
+            transform: translateY(-8px) scale(1.03);
+            border-color: var(--border-glow);
+            box-shadow: 0 12px 30px rgba(255, 0, 0, 0.15);
+            background-color: var(--bg-card-hover);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
         }
 
         .stat-card i {
-            font-size: 2.8rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
+            font-size: 3rem;
+            color: var(--primary-red);
+            margin-bottom: 1.2rem;
+            display: inline-block;
         }
 
         .stat-card h3 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 0.3rem;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.4rem;
+            color: var(--text-main);
+            letter-spacing: 1px;
         }
 
         .stat-card p {
             color: var(--text-muted);
             text-transform: uppercase;
             font-size: 0.85rem;
-            letter-spacing: 1px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
         }
 
-        /* Contact Form */
-        .contact-card {
-            max-width: 650px;
+        /* ==========================================================================
+           8. STYLED CONTACT FORM SECTION
+           ========================================================================== */
+        .contact-container {
+            max-width: 750px;
             margin: 0 auto;
+        }
+
+        .contact-card {
             background-color: var(--bg-card);
-            padding: 3rem;
-            border-radius: 8px;
-            border: 1px solid var(--glass-border);
+            padding: 3.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+
+        .contact-card::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), transparent, rgba(0, 136, 204, 0.2));
+            border-radius: var(--radius-lg);
+            z-index: -1;
+            pointer-events: none;
         }
 
         .form-group {
-            margin-bottom: 1.8rem;
+            margin-bottom: 2rem;
+            position: relative;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.6rem;
-            color: var(--text-muted);
-            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
         }
 
-        .form-group input,
-        .form-group textarea {
+        .form-group label i {
+            color: var(--primary-red);
+            margin-right: 0.4rem;
+        }
+
+        .form-control {
             width: 100%;
-            padding: 0.9rem;
+            padding: 1.1rem 1.2rem;
             background-color: var(--bg-dark);
-            border: 1px solid var(--glass-border);
-            border-radius: 4px;
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
             color: var(--text-main);
             font-size: 1rem;
             outline: none;
-            transition: var(--transition);
+            transition: var(--transition-fast);
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+        .form-control:focus {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.35);
+            background-color: #0f0f14;
         }
 
-        .form-group textarea {
+        textarea.form-control {
             resize: vertical;
-            height: 140px;
+            min-height: 160px;
         }
 
-        .contact-card .btn {
+        .contact-card .btn-submit {
             width: 100%;
-            justify-content: center;
-            border-radius: 4px;
+            padding: 1.1rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
         }
 
-        /* Floating Separate Telegram Feedback Button */
-        .floating-telegram-feedback {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background-color: #0088cc;
-            color: #ffffff;
-            padding: 0.85rem 1.4rem;
-            border-radius: 50px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-weight: 700;
-            font-size: 0.95rem;
-            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
-            transition: var(--transition);
-            z-index: 999;
-        }
-
-        .floating-telegram-feedback:hover {
-            transform: translateY(-5px) scale(1.05);
-            background-color: #0077b5;
-            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.7);
-        }
-
-        /* Footer */
+        /* ==========================================================================
+           9. FOOTER & SOCIAL ICONS SECTION
+           ========================================================================== */
         footer {
-            background-color: #050507;
-            padding: 3rem 8%;
+            background-color: #040406;
+            padding: 4rem 8% 3rem;
             text-align: center;
-            border-top: 1px solid var(--glass-border);
+            border-top: 1px solid var(--border-glass);
+            position: relative;
+        }
+
+        .footer-brand {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+        .footer-brand span {
+            color: var(--primary-red);
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 1.8rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
         }
 
-        .social-links a {
+        .social-icon-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-glass);
             color: var(--text-muted);
-            font-size: 1.6rem;
-            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: var(--transition-normal);
         }
 
-        .social-links a:hover {
-            color: var(--accent);
-            transform: scale(1.25);
+        .social-icon-btn:hover {
+            color: var(--text-main);
+            transform: translateY(-5px) scale(1.15);
+            border-color: var(--primary-red);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
         }
 
-        footer p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
+        .social-icon-btn.icon-youtube:hover {
+            background-color: var(--brand-youtube);
+            border-color: var(--brand-youtube);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.5);
+        }
+        .social-icon-btn.icon-instagram:hover {
+            background: var(--brand-instagram);
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(220, 39, 67, 0.5);
+        }
+        .social-icon-btn.icon-telegram:hover {
+            background-color: var(--brand-telegram);
+            border-color: var(--brand-telegram);
+            box-shadow: 0 8px 20px rgba(0, 136, 204, 0.5);
+        }
+        .social-icon-btn.icon-whatsapp:hover {
+            background-color: var(--brand-whatsapp);
+            border-color: var(--brand-whatsapp);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
         }
 
-        /* Responsive Breakpoints */
+        .copyright {
+            color: var(--text-dim);
+            font-size: 0.88rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+            margin-top: 1rem;
+        }
+
+        /* ==========================================================================
+           10. FULL MOBILE - TABLET - DESKTOP RESPONSIVENESS
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3.2rem;
+            }
+            section {
+                padding: 5rem 6%;
+            }
+        }
+
         @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 6%;
+            }
+
             .hamburger {
                 display: block;
             }
 
             .nav-links {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 320px;
+                height: 100vh;
                 background: var(--bg-card);
                 flex-direction: column;
-                padding: 2rem;
-                gap: 1.5rem;
-                display: none;
-                border-bottom: 1px solid var(--glass-border);
+                justify-content: center;
+                align-items: center;
+                padding: 3rem 2rem;
+                gap: 2rem;
+                border-left: 1px solid var(--border-glass);
+                transition: var(--transition-normal);
+                z-index: 999;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
             }
 
             .nav-links.active {
-                display: flex;
+                right: 0;
+            }
+
+            .hero {
+                min-height: 85vh;
+                padding-top: 6rem;
             }
 
             .hero h1 {
-                font-size: 2.3rem;
+                font-size: 2.4rem;
             }
 
             .hero p {
@@ -480,6 +927,14 @@
                 flex-direction: column;
                 width: 100%;
                 max-width: 320px;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+            }
+
+            .section-title {
+                font-size: 2rem;
             }
 
             .contact-card {
@@ -493,14 +948,40 @@
             .floating-telegram-feedback {
                 padding: 1rem;
                 border-radius: 50%;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <a href="#" class="logo">PROTON<span>X</span>MUSIC</a>
+    <div class="ambient-bg">
+        <div class="ambient-blob blob-1"></div>
+        <div class="ambient-blob blob-2"></div>
+        <div class="ambient-blob blob-3"></div>
+    </div>
+
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+
+    <nav class="navbar" id="navbar">
+        <a href="#home" class="logo">
+            <i class="fas fa-compact-disc"></i> PROTON<span>X</span>MUSIC
+        </a>
         <div class="nav-right">
             <ul class="nav-links" id="nav-menu">
                 <li><a href="#home">Home</a></li>
@@ -508,139 +989,290 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <div class="hamburger" id="hamburger-btn">
+            <div class="hamburger" id="hamburger-btn" aria-label="Toggle Navigation">
                 <i class="fas fa-bars"></i>
             </div>
         </div>
     </nav>
 
     <section class="hero" id="home">
+        <div class="hero-badge">
+            <i class="fas fa-fire"></i> Official Music & Tech Hub
+        </div>
         <h1>Welcome to <span>ProtonXmusic</span></h1>
-        <p>High-energy gaming tracks, powerful synth waves, and tech soundscapes tailored for creators and gaming culture.</p>
+        <p>High-energy gaming tracks, powerful synth waves, and futuristic soundscapes tailored for creators, gamers, and music enthusiasts worldwide.</p>
+        
         <div class="hero-buttons">
-            <a href="https://www.youtube.com/@ProtonXmusic01" target="_blank" class="btn btn-youtube">
+            <a href="https://www.youtube.com/@ProtonXmusic01" target="_blank" class="btn btn-youtube" rel="noopener">
                 <i class="fab fa-youtube"></i> YouTube Channel
             </a>
-            <a href="https://t.me/+9fG4SgFhHQxjYjRl" target="_blank" class="btn btn-telegram">
+            <a href="https://t.me/+9fG4SgFhHQxjYjRl" target="_blank" class="btn btn-telegram" rel="noopener">
                 <i class="fab fa-telegram-plane"></i> Telegram Group
             </a>
-            <a href="https://whatsapp.com/channel/0029Vb9VoNt6mYPG70kKqF0i" target="_blank" class="btn btn-whatsapp">
+            <a href="https://whatsapp.com/channel/0029Vb9VoNt6mYPG70kKqF0i" target="_blank" class="btn btn-whatsapp" rel="noopener">
                 <i class="fab fa-whatsapp"></i> WhatsApp Channel
             </a>
-            <a href="https://www.instagram.com/infinity_aura_006?igsi=MzljOW55dWJ3Mzdy" target="_blank" class="btn btn-instagram">
+            <a href="https://www.instagram.com/infinity_aura_006?igsi=MzljOW55dWJ3Mzdy" target="_blank" class="btn btn-instagram" rel="noopener">
                 <i class="fab fa-instagram"></i> Instagram
             </a>
         </div>
+
+        <a href="#videos" class="hero-scroll-indicator" aria-label="Scroll down to latest videos">
+            <span>Explore Tracks</span>
+            <i class="fas fa-chevron-down"></i>
+        </a>
     </section>
+
+    <div class="section-divider"></div>
 
     <section id="videos">
-        <h2 class="section-title">Latest Uploads</h2>
-        <div class="video-grid" id="rss-video-feed">
-            <p style="text-align: center; grid-column: 1/-1; color: var(--text-muted);">Fetching latest YouTube feed...</p>
+        <div class="section-header">
+            <span class="section-subtitle">Fresh Drops</span>
+            <h2 class="section-title">Latest YouTube Uploads</h2>
         </div>
-    </section>
-
-    <section id="about">
-        <h2 class="section-title">About The Channel</h2>
-        <div class="about-content">
-            <p class="about-description">
-                ProtonXmusic delivers original electronic music compositions, gaming soundtracks, and energetic background themes. Designed to enhance live streams, gameplay edits, and immersive creative projects.
-            </p>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <i class="fab fa-youtube"></i>
-                    <h3>100K+</h3>
-                    <p>Subscribers</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-video"></i>
-                    <h3>150+</h3>
-                    <p>Videos Released</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-headphones"></i>
-                    <h3>2M+</h3>
-                    <p>Total Views</p>
+        
+        <div class="video-feed-wrapper">
+            <div class="video-grid" id="rss-video-feed">
+                <div class="feed-loader">
+                    <div class="spinner"></div>
+                    <p>Fetching latest YouTube videos via RSS...</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact">
-        <h2 class="section-title">Contact</h2>
-        <div class="contact-card">
-            <form id="contact-form" onsubmit="event.preventDefault(); alert('Thank you for reaching out! Your message has been received.'); this.reset();">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" required placeholder="Enter your name">
+    <div class="section-divider"></div>
+
+    <section id="about">
+        <div class="section-header">
+            <span class="section-subtitle">Behind The Sound</span>
+            <h2 class="section-title">About The Channel</h2>
+        </div>
+        
+        <div class="about-content">
+            <div class="about-description">
+                <strong>ProtonXmusic</strong> is a premier content studio creating high-octane electronic music, background scores, and gaming soundtracks. Produced specifically to elevate streams, montage edits, and immersive digital content, every track combines punchy basslines with futuristic synthesizer melodies.
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fab fa-youtube"></i>
+                    <h3 class="counter" data-target="100000">100K+</h3>
+                    <p>Subscribers</p>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required placeholder="Enter your email">
+                <div class="stat-card">
+                    <i class="fas fa-compact-disc"></i>
+                    <h3 class="counter" data-target="150">150+</h3>
+                    <p>Tracks Released</p>
                 </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" required placeholder="Your message or collaboration request..."></textarea>
+                <div class="stat-card">
+                    <i class="fas fa-play-circle"></i>
+                    <h3 class="counter" data-target="2000000">2M+</h3>
+                    <p>Total Views</p>
                 </div>
-                <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Send Message</button>
-            </form>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3 class="counter" data-target="50000">50K+</h3>
+                    <p>Community Members</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <a href="https://t.me/+9fG4SgFhHQxjYjRl" target="_blank" class="floating-telegram-feedback" aria-label="Telegram Feedback">
+    <div class="section-divider"></div>
+
+    <section id="contact">
+        <div class="section-header">
+            <span class="section-subtitle">Get In Touch</span>
+            <h2 class="section-title">Business & Collaborations</h2>
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-card">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="name" class="form-control" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="email" class="form-control" required placeholder="Enter your email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject"><i class="fas fa-tag"></i> Subject</label>
+                        <input type="text" id="subject" class="form-control" required placeholder="Project / Collaboration Inquiry">
+                    </div>
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-comment-alt"></i> Message</label>
+                        <textarea id="message" class="form-control" required placeholder="Describe your project, timeline, or request..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-paper-plane"></i> Send Inquiry
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <a href="https://t.me/+9fG4SgFhHQxjYjRl" target="_blank" class="floating-telegram-feedback" aria-label="Telegram Feedback" rel="noopener">
         <i class="fas fa-comment-dots"></i>
         <span>Telegram Feedback</span>
     </a>
 
     <footer>
+        <div class="footer-brand">PROTON<span>X</span>MUSIC</div>
+        <p class="footer-tagline">Crafting electrifying audio experiences for creators & gamers globally.</p>
+
         <div class="social-links">
-            <a href="https://www.youtube.com/@ProtonXmusic01" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.instagram.com/infinity_aura_006?igsi=MzljOW55dWJ3Mzdy" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://t.me/+9fG4SgFhHQxjYjRl" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-            <a href="https://whatsapp.com/channel/0029Vb9VoNt6mYPG70kKqF0i" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.youtube.com/@ProtonXmusic01" target="_blank" class="social-icon-btn icon-youtube" aria-label="YouTube Channel" rel="noopener">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://www.instagram.com/infinity_aura_006?igsi=MzljOW55dWJ3Mzdy" target="_blank" class="social-icon-btn icon-instagram" aria-label="Instagram Profile" rel="noopener">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://t.me/+9fG4SgFhHQxjYjRl" target="_blank" class="social-icon-btn icon-telegram" aria-label="Telegram Group" rel="noopener">
+                <i class="fab fa-telegram-plane"></i>
+            </a>
+            <a href="https://whatsapp.com/channel/0029Vb9VoNt6mYPG70kKqF0i" target="_blank" class="social-icon-btn icon-whatsapp" aria-label="WhatsApp Channel" rel="noopener">
+                <i class="fab fa-whatsapp"></i>
+            </a>
         </div>
-        <p>&copy; 2026 ProtonXmusic. All rights reserved.</p>
+
+        <div class="copyright">
+            &copy; 2026 ProtonXmusic. All rights reserved. Designed for optimal gaming & content creation performance.
+        </div>
     </footer>
 
     <script>
-        // Mobile Navigation Toggle
-        const hamburgerBtn = document.getElementById('hamburger-btn');
-        const navMenu = document.getElementById('nav-menu');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Navigation Toggle & Overlay Handler
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const navMenu = document.getElementById('nav-menu');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+            const navbar = document.getElementById('navbar');
 
-        hamburgerBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
+            function toggleMenu() {
+                const isActive = navMenu.classList.toggle('active');
+                mobileOverlay.classList.toggle('active', isActive);
+                hamburgerBtn.innerHTML = isActive ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = isActive ? 'hidden' : '';
+            }
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
+            hamburgerBtn.addEventListener('click', toggleMenu);
+            mobileOverlay.addEventListener('click', toggleMenu);
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navMenu.classList.contains('active')) {
+                        toggleMenu();
+                    }
+                });
             });
+
+            // Navbar Scroll Effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Dynamic YouTube Feed Parser via RSS2JSON API
+            const rssFeedUrl = 'https://www.youtube.com/feeds/videos.xml?user=ProtonXmusic01';
+            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
+
+            async function fetchLatestYouTubeVideos() {
+                const container = document.getElementById('rss-video-feed');
+                
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+
+                    if (data.status === 'ok' && data.items && data.items.length > 0) {
+                        container.innerHTML = ''; // Clear loading state
+
+                        // Extract latest 3 videos
+                        const latestVideos = data.items.slice(0, 3);
+
+                        latestVideos.forEach(item => {
+                            // Parse YouTube Video ID from RSS GUID (Format: yt:video:VIDEO_ID) or Link
+                            let videoId = '';
+                            if (item.guid) {
+                                const guidParts = item.guid.split(':');
+                                videoId = guidParts[guidParts.length - 1];
+                            } else if (item.link) {
+                                const match = item.link.match(/(?:v=|\/embed\/|\/1\/|youtu\.be\/|\/v\/)([^#&?]*)/);
+                                videoId = (match && match[1]) ? match[1] : '';
+                            }
+
+                            const pubDate = new Date(item.pubDate).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric'
+                            });
+
+                            const videoCard = document.createElement('div');
+                            videoCard.className = 'video-card';
+                            videoCard.innerHTML = `
+                                <div class="iframe-container">
+                                    <iframe 
+                                        src="https://www.youtube.com/embed/${videoId}" 
+                                        title="${item.title}"
+                                        loading="lazy"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                                <div class="video-info">
+                                    <h3 class="video-title" title="${item.title}">${item.title}</h3>
+                                    <div class="video-meta">
+                                        <span><i class="far fa-calendar-alt"></i> ${pubDate}</span>
+                                        <span><i class="fab fa-youtube"></i> ProtonXmusic</span>
+                                    </div>
+                                </div>
+                            `;
+                            container.appendChild(videoCard);
+                        });
+                    } else {
+                        throw new Error('No items returned from RSS feed');
+                    }
+                } catch (error) {
+                    console.error('RSS Feed Fetch Error:', error);
+                    container.innerHTML = `
+                        <div class="feed-loader" style="grid-column: 1 / -1; text-align: center;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; color: var(--primary-red); margin-bottom: 1rem;"></i>
+                            <p style="color: var(--text-muted);">Unable to automatically load the latest RSS feed right now.</p>
+                            <a href="https://www.youtube.com/@ProtonXmusic01" target="_blank" class="btn btn-youtube" style="margin-top: 1rem;">
+                                <i class="fab fa-youtube"></i> View Directly On YouTube
+                            </a>
+                        </div>
+                    `;
+                }
+            }
+
+            fetchLatestYouTubeVideos();
+
+            // Contact Form Submission Simulation
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const submitBtn = contactForm.querySelector('.btn-submit');
+                    const originalBtnContent = submitBtn.innerHTML;
+
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    submitBtn.disabled = true;
+
+                    setTimeout(() => {
+                        alert('Thank you for reaching out to ProtonXmusic! Your message has been sent successfully.');
+                        contactForm.reset();
+                        submitBtn.innerHTML = originalBtnContent;
+                        submitBtn.disabled = false;
+                    }, 1500);
+                });
+            }
         });
-
-        // Dynamic RSS Feed Parser via rss2json API
-        const rssFeedUrl = 'https://www.youtube.com/feeds/videos.xml?user=ProtonXmusic01';
-        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
-
-        async function loadYouTubeVideos() {
-            const container = document.getElementById('rss-video-feed');
-            try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-
-                if (data.status === 'ok' && data.items && data.items.length > 0) {
-                    container.innerHTML = '';
-
-                    // Parse the latest 3 videos
-                    const latestThree = data.items.slice(0, 3);
-
-                    latestThree.forEach(item => {
-                        // Extract Video ID from YouTube GUID format (yt:video:VIDEO_ID)
-                        let videoId = '';
-                        if (item.guid) {
-                            const guidParts = item.guid.split(':');
-                            videoId = guidParts[guidParts.length - 1];
-                        } else if (item.link) {
-                            videoId = item.link.split('v=')[1];
-                        }
-
-                        const card = document.createElemen
+    </script>
+</body>
+</html>
