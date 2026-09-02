@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProtonXmusic | Official Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables & Global Resets */
+        :root {
+            --bg-dark: #0a0a0c;
+            --bg-card: #141419;
+            --bg-card-hover: #1e1e26;
+            --text-main: #ffffff;
+            --text-muted: #a0a0ab;
+            --accent: #FF0000;
+            --accent-hover: #cc0000;
+            --glass-bg: rgba(20, 20, 25, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Fixed Glassmorphism Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 8%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: var(--text-main);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        /* Buttons & CTA Styling */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.8rem;
+            background-color: var(--accent);
+            color: var(--text-main);
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .btn-youtube {
+            background-color: #FF0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .btn-youtube:hover {
+            background-color: #d60000;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
+        }
+
+        .btn-telegram {
+            background-color: #0088cc;
+            box-shadow: 0 0 15px rgba(0, 136, 204, 0.4);
+        }
+
+        .btn-telegram:hover {
+            background-color: #0077b5;
+            box-shadow: 0 0 25px rgba(0, 136, 204, 0.7);
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1eb956;
+            box-shadow: 0 0 25px rgba(37, 211, 102, 0.7);
+        }
+
+        .btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            box-shadow: 0 0 15px rgba(220, 39, 67, 0.4);
+        }
+
+        .btn-instagram:hover {
+            opacity: 0.9;
+            box-shadow: 0 0 25px rgba(220, 39, 67, 0.7);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 1.5rem;
+            margin-top: 60px;
+            background: radial-gradient(circle at center, rgba(255, 0, 0, 0.15) 0%, rgba(10, 10, 12, 1) 75%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+        }
+
+        /* Main Section Layout */
+        section {
+            padding: 6rem 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin-bottom: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 4px;
+            background-color: var(--accent);
+            margin: 0.6rem auto 0;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Dynamic Video Feed Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .video-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.2);
+        }
+
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            background-color: #000;
+        }
+
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            padding: 1.25rem;
+        }
+
+        .video-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* About & Channel Stats */
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3.5rem;
+        }
+
+        .about-description {
+            max-width: 800px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.15rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            padding: 2.5rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.15);
+        }
+
+        .stat-card i {
+            font-size: 2.8rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .stat-card h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-card p {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+        
+        /* Floating Separate Telegram Feedback Button */
+        .floating-telegram-feedback {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #0088cc;
+            color: #ffffff;
+            padding: 0.85rem 1.4rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .floating-telegram-feedback:hover {
+            transform: translateY(-5px) scale(1.05);
+            background-color: #0077b5;
+            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.7);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #050507;
+            padding: 3rem 8%;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            font-size: 1.6rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            transform: scale(1.25);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--bg-card);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                display: none;
+                border-bottom: 1px solid var(--glass-border);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .contact-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .floating-telegram-feedback span {
+                display: none;
+            }
+
+            .floating-telegram-feedback {
+                padding: 1rem;
+                border-radius: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="logo">PROTON<span>X</span>MUSIC</a>
+        <div class="nav-right">
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#videos">Videos</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <h1>Welcome to <span>ProtonXmusic</span></h1>
+        <p>High-energy gaming tracks, powerful synth waves, and tech soundscapes tailored for creators and gaming culture.</p>
+        <div class="hero-buttons">
+            <a href="https://www.youtube.com/@ProtonXmusic01" target="_blank" class="btn btn-youtube">
+                <i class="fab fa-youtube"></i> YouTube Channel
+            </a>
+            <a href="https://t.me/+9fG4SgFhHQxjYjRl" target="_blank" class="btn btn-telegram">
+                <i class="fab fa-telegram-plane"></i> Telegram Group
+            </a>
+            <a href="https://whatsapp.com/channel/0029Vb9VoNt6mYPG70kKqF0i" target="_blank" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> WhatsApp Channel
+            </a>
+            <a href="https://www.instagram.com/infinity_aura_006?igsi=MzljOW55dWJ3Mzdy" target="_blank" class="btn btn-instagram">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+        </div>
+    </section>
+
+    <section id="videos">
+        <h2 class="section-title">Latest Uploads</h2>
+        <div class="video-grid" id="rss-video-feed">
+            <p style="text-align: center; grid-column: 1/-1; color: var(--text-muted);">Fetching latest YouTube feed...</p>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">About The Channel</h2>
+        <div class="about-content">
+            <p class="about-description">
+         Welcome to ProtonXmusic, your destination for music, beats, creative edits, trending sounds, and unforgettable vibes. 🎧🎶 Here you’ll discover fresh and entertaining content created for music lovers who enjoy discovering new sounds and energetic vibes. From powerful beats to relaxing tunes and creative music edits, ProtonXmusic is all about bringing you content that you can enjoy, share, and listen to anytime. Subscribe to ProtonXmusic and join the journey as we create, explore, and share the world of music together. 🔥🎵
+            </p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fab fa-youtube"></i>
+                    <h3>100K+</h3>
+                    <p>Subscribers</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-video"></i>
+                    <h3>150+</h3>
+                    <p>Videos Released</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-headphones"></i>
+                    <h3>2M+</h3>
+                    <p>Total Views</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-card">
+            <form id="contact-form" onsubmit="event.preventDefault(); alert('Thank you for reaching out! Your message has been received.'); this.reset();">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" required placeholder="Your message or collaboration request..."></textarea>
+                </div>
+                <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <a href="https://t.me/+9fG4SgFhHQxjYjRl" target="_blank" class="floating-telegram-feedback" aria-label="Telegram Feedback">
+        <i class="fas fa-comment-dots"></i>
+        <span>Telegram Feedback</span>
+    </a>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.youtube.com/@ProtonXmusic01" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/infinity_aura_006?igsi=MzljOW55dWJ3Mzdy" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://t.me/+9fG4SgFhHQxjYjRl" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+            <a href="https://whatsapp.com/channel/0029Vb9VoNt6mYPG70kKqF0i" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>&copy; 2026 ProtonXmusic. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile Navigation Toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Dynamic RSS Feed Parser via rss2json API
+        const rssFeedUrl = 'https://www.youtube.com/feeds/videos.xml?user=ProtonXmusic01';
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
+
+        async function loadYouTubeVideos() {
+            const container = document.getElementById('rss-video-feed');
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    container.innerHTML = '';
+
+                    // Parse the latest 3 videos
+                    const latestThree = data.items.slice(0, 3);
+
+                    latestThree.forEach(item => {
+                        // Extract Video ID from YouTube GUID format (yt:video:VIDEO_ID)
+                        let videoId = '';
+                        if (item.guid) {
+            
